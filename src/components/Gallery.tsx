@@ -1,33 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const images = [
-  {
-    src: "/feed1.png",
-    alt: "Avaliação minuciosa de um relógio de pulso, mostrando o cuidado artesanal em cada detalhe."
-  },
-  {
-    src: "/feed2.png",
-    alt: "Relógios organizados para manutenção, destacando a variedade de modelos atendidos."
-  },
-  {
-    src: "/feed3.png",
-    alt: "Inspeção de um relógio esportivo, evidenciando precisão e tecnologia."
-  },
-  {
-    src: "/feed4.png",
-    alt: "Dois relógios lado a lado, prontos para serem restaurados com excelência."
-  },
-  {
-    src: "/feed5.png",
-    alt: "Ferramentas especializadas e relógio em foco, representando a técnica e o profissionalismo do serviço."
-  },
-  {
-    src: "/feed6.png",
-    alt: "Relógios clássicos e modernos aguardando manutenção, simbolizando tradição e inovação."
-  }
-];
+interface GalleryItem {
+  src: string;
+  alt: string;
+  fixed: boolean;
+}
 
 const Gallery = () => {
+  const [images, setImages] = useState<GalleryItem[]>([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('portfolioItems');
+    if (saved) {
+      const all = JSON.parse(saved) as GalleryItem[];
+      setImages(all.filter(item => item.fixed).slice(0, 6));
+    }
+  }, []);
+
   return (
     <section className="py-16 px-4 bg-white">
       <div className="max-w-4xl mx-auto">
@@ -97,11 +86,16 @@ const Gallery = () => {
               {/* Corner Detail */}
               <div className="absolute top-4 right-4 w-8 h-8 border-2 border-gold-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute top-1 left-1/2 w-0.5 h-2 bg-gold-500 transform -translate-x-1/2"></div>
-                <div className="absolute top-1/2 left-1 w-1.5 h-0.5 bg-gold-500 transform -translate-y-1/2"></div>
+                <div className="absolute top-1/2 left-0 w-1.5 h-0.5 bg-gold-500 transform -translate-y-1/2"></div>
               </div>
             </div>
           ))}
         </div>
+      </div>
+      <div className="flex justify-center mt-10">
+        <a href="/portifolio" className="bg-gold-500 hover:bg-gold-600 text-white font-semibold px-8 py-4 rounded-xl shadow-lg transition-all duration-300 text-lg">
+          Ver Portifólio Completo
+        </a>
       </div>
 
       <style>{`
